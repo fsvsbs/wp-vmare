@@ -1,0 +1,17 @@
+- name: destroy terraform 
+  terraform:
+    project_path: "{{ tf_plugin }}" # required. The path to the root of the Terraform directory with the vars.tf/main.tf/etc to use.
+    variables: 
+      vsphere_user: '{{ lookup("env", "VMWARE_USER") }}'
+      vsphere_password: '{{ lookup("env", "VMWARE_PASSWORD") }}'
+
+    variables_file: "{{role_path}}/terraform.tfvars" # not required. A group of key-values to override template variables or those in variables files.
+    state: absent # not required. choices: planned;present;absent. Goal state of given stage/project
+    plan_file: "{{ role_path }}/tf.plan" # not required. The path to an existing Terraform plan file to apply. If this is not specified, Ansible will build a new TF plan and execute it. Note that this option is required if 'state' has the 'planned' value.
+    purge_workspace: false # not required. Only works with state = absent,If true, the workspace will be deleted after the "terraform destroy" action.,The 'default' workspace will not be deleted.
+    workspace: default # not required. The terraform workspace to work with.
+    force_init: false # not required. To avoid duplicating infra, if a state file can't be found this will force a `terraform init`. Generally, this should be turned off unless you intend to provision an entirely new Terraform deployment.
+    binary_path: "{{ terraform_bin }}" # not required. The path of a terraform binary to use, relative to the 'service_path' unless you supply an absolute path.
+    state_file: "{{ role_path }}/tfstate"
+  tags:
+    - destroy

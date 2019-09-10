@@ -1,0 +1,5 @@
+    {% for key, value in terraform_vars.items() %}
+{{ key }} = {% if '[' in value %}{{ value }}{% else %}"{{value}}"{% endif %}
+
+    {% endfor %}
+

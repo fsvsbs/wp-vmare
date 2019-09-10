@@ -1,0 +1,26 @@
+---
+- name: build template
+  hosts: all
+  connection: local
+  tasks:
+
+  - name: Create Projects
+    tower_project:
+      name: "{{ item.name }}"
+      description: "{{ item.description }}"
+      organization: "{{ item.organization }}"
+      scm_type: "{{ item.scm_type }}"
+      scm_url: "{{ item.scm_url }}"
+      scm_branch: "{{ item.scm_branch }}"
+      scm_update_on_launch: yes
+      scm_clean: yes
+      state:  "present"
+      tower_verify_ssl: no
+      tower_username: '{{ lookup("env", "tower_username") }}'
+      tower_password: '{{ lookup("env", "tower_password") }}'
+      tower_host: '{{ lookup("env", "tower_host") }}'
+    with_items: "{{ tower_projects }}"
+
+
+
+

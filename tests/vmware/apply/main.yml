@@ -1,9 +1,0 @@
----
-- name: Build Enviroment using Terraform
-  hosts: 
-   - localhost
-  connection: local
-  roles: 
-    - iac-k8s-terraform
-  tags:
-   - apply
